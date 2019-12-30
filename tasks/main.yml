@@ -27,8 +27,8 @@
     force_apt_get: yes
   vars:
     packages:
-    - linux-headers-amd64
-    - linux-image-amd64
+    - "linux-headers-{{ ansible_facts['kernel'] }}"
+    - "linux-image-{{ ansible_facts['kernel'] }}"
 
 - name: Ensure wireguard is installed
   apt:
