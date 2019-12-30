@@ -1,0 +1,10 @@
+---
+roles:
+  # Using `git@github.com:username` does not seem to work
+  # when installing within a Github Actions runner. As
+  # proposed by Ansible, Github repositories can simply
+  # use the plain repository link as the `src` target.
+  - name: ufw
+    src: https://github.com/loozhengyuan/ansible-ufw
+    scm: git
+    version: master

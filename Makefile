@@ -10,6 +10,7 @@ install:
         setuptools \
         wheel
 	pip install -r requirements.txt
+	ansible-galaxy install -f -r requirements.yml --roles-path molecule/default/roles/
 
 requirements:
 	test ! -d venv || rm -rf venv
