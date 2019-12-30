@@ -1,4 +1,5 @@
 [Interface]
+# Name = {{ ansible_facts['fqdn'] }} ({{ ansible_facts['hostname'] }})
 PrivateKey = {{ wireguard_server_privatekey.content | b64decode }}
 Address = {{ wireguard_server_tuncidr }}
 ListenPort = {{ wireguard_server_port }}
