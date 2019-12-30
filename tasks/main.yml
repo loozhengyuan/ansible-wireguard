@@ -20,15 +20,15 @@
 - name: Force all notified handlers to run at this point, not waiting for normal sync points
   meta: flush_handlers
 
-# - name: Ensure kernel headers are installed
-#   apt:
-#     name: "{{ packages }}"
-#     state: present
-#     force_apt_get: yes
-#   vars:
-#     packages:
-#     - linux-headers-amd64
-#     - linux-image-amd64
+- name: Ensure kernel headers are installed
+  apt:
+    name: "{{ packages }}"
+    state: present
+    force_apt_get: yes
+  vars:
+    packages:
+    - "linux-headers-{{ ansible_facts['kernel'] }}"
+    - "linux-image-{{ ansible_facts['kernel'] }}"
 
 - name: Ensure wireguard is installed
   apt:
