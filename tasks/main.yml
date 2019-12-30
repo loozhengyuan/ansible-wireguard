@@ -47,12 +47,16 @@
     path: privatekey
   register: privatekey
 
-# Shells that use pipes should set the pipefail option
+# Shells that use pipes should set the pipefail option,
+# which requires running the shell commands as /bin/bash
+# instead of the default /bin/sh executable
 - name: Ensure privatekey is generated
   shell: |
     set -o pipefail
     umask 077
     wg genkey | tee privatekey
+  args:
+    executable: /bin/bash
   when: not privatekey.stat.exists
 
 - name: Get privatekey
