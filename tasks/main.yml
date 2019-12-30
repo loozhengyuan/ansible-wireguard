@@ -1,2 +1,104 @@
 ---
-# tasks file for wireguard
+- name: Ensure packages from unstable release are loaded
+  apt_repository:
+    repo: "{{ item }}"
+    state: present
+    filename: unstable
+  loop:
+    - deb http://deb.debian.org/debian unstable main contrib
+    - deb-src http://deb.debian.org/debian unstable main contrib
+  notify: apt_update
+
+- name: Ensure apt preferences are loaded
+  template:
+    src: 99unstable.j2
+    dest: /etc/apt/preferences.d/99unstable
+    mode: '0644'
+    backup: yes
+  notify: apt_update
+
+- name: Force all notified handlers to run at this point, not waiting for normal sync points
+  meta: flush_handlers
+
+- name: Ensure kernel headers are installed
+  apt:
+    name: "{{ packages }}"
+    state: present
+    force_apt_get: yes
+  vars:
+    packages:
+    - linux-headers-amd64
+    - linux-image-amd64
+
+- name: Ensure wireguard is installed
+  apt:
+    name: wireguard
+    state: present
+    default_release: unstable
+    force_apt_get: yes
+
+- name: Ensure wireguard module is loaded
+  modprobe:
+    name: wireguard
+    state: present
+
+- name: Ensure privatekey exists
+  stat:
+    path: privatekey
+  register: privatekey
+
+# Shells that use pipes should set the pipefail option
+- name: Ensure privatekey is generated
+  shell: |
+    set -o pipefail
+    umask 077
+    wg genkey | tee privatekey
+  when: privatekey.stat.exists
+
+- name: Get privatekey
+  slurp:
+    src: privatekey
+  register: wireguard_server_privatekey
+
+- name: Ensure publickey exists
+  stat:
+    path: publickey
+  register: publickey
+
+- name: Ensure publickey is generated
+  shell: |
+    umask 077
+    wg pubkey < privatekey > publickey
+  when: publickey.stat.exists
+
+- name: Get publickey
+  slurp:
+    src: publickey
+  register: wireguard_server_publickey
+
+- name: Enable packet forwarding is enabled for IPv4
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: '1'
+    sysctl_set: yes
+
+- name: Ensure wg0 interface is configured
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+    mode: '0644'
+    backup: yes
+  notify: wireguard_restart
+
+- name: Ensure ports are exposed
+  ufw:
+    rule: allow
+    port: "{{ wireguard_server_port }}"
+    proto: udp
+  notify: ufw_reload
+
+- name: Ensure wireguard is started and enabled
+  service:
+    name: wg-quick@wg0
+    state: started
+    enabled: yes

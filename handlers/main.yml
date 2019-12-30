@@ -1,2 +1,12 @@
 ---
-# handlers file for wireguard
+- name: Run apt-get update
+  apt:
+    update_cache: yes
+    force_apt_get: yes
+  listen: apt_update
+
+- name: Restart wireguard
+  service:
+    name: "wg-quick@wg0"
+    state: restarted
+  listen: wireguard_restart
