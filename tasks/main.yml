@@ -20,6 +20,16 @@
 - name: Force all notified handlers to run at this point, not waiting for normal sync points
   meta: flush_handlers
 
+- name: Get linux-headers
+  shell: |
+    apt search linux-headers
+  changed_when: false
+  register: apt_search
+
+- name: Show available linux-headers packages
+  debug:
+    msg: "{{ apt_search.stdout }}"
+
 - name: Ensure kernel headers are installed
   apt:
     name: "{{ packages }}"
