@@ -17,9 +17,6 @@
     backup: yes
   notify: apt_update
 
-- name: Force all notified handlers to run at this point, not waiting for normal sync points
-  meta: flush_handlers
-
 - name: Ensure kernel headers are installed
   apt:
     name: "{{ packages }}"
@@ -29,6 +26,10 @@
     packages:
     - linux-headers-amd64
     - linux-image-amd64
+  notify: host_reboot
+
+- name: Force all notified handlers to run at this point, not waiting for normal sync points
+  meta: flush_handlers
 
 - name: Ensure wireguard is installed
   apt:

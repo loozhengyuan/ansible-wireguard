@@ -10,3 +10,7 @@
     name: "wg-quick@wg0"
     state: restarted
   listen: wireguard_restart
+
+- name: Reboot host
+  reboot:
+  listen: host_reboot
