@@ -41,6 +41,11 @@ galaxy_info:
     # NOTE: A tag is limited to a single word comprised of alphanumeric characters.
     #       Maximum 20 tags per role.
 
+# Note that, while role-to-role dependencies are listed here, they
+# will need to be explicitly installed before running molecule tests
+# since this file is only read by the `ansible-galaxy` command when
+# this role is installed externally. A requirements.yml, for purpose
+# of running tests, is a good workaround to this issue.
 dependencies:
   - name: ufw
     src: git@github.com:loozhengyuan/ansible-ufw.git
