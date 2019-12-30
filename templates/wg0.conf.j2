@@ -8,9 +8,8 @@ PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -D FORWARD -o wg0 -j A
 # SaveConfig = true
 
 {% for peer in wireguard_peers %}
-# {{ peer.name }}
 [Peer]
+# Name = {{ peer.name }}
 PublicKey = {{ peer.publickey }}
 AllowedIPs = {{ peer.tuncidr }}
-
 {% endfor %}
