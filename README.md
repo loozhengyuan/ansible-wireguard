@@ -1,6 +1,9 @@
 Role Name
 =========
 
+[![](https://github.com/loozhengyuan/ansible-wireguard/workflows/Main%20Workflow/badge.svg?branch=master)](https://github.com/loozhengyuan/ansible-wireguard/actions)
+[![](https://travis-ci.com/loozhengyuan/ansible-wireguard.svg?branch=master)](https://travis-ci.com/loozhengyuan/ansible-wireguard)
+
 A brief description of the role goes here.
 
 Requirements
