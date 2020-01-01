@@ -1,6 +1,6 @@
 ---
-wireguard_server_custom_privatekey:
-wireguard_server_custom_publickey:
+wireguard_server_custom_privatekey: ""
+wireguard_server_custom_publickey: ""
 wireguard_server_port: "51820"
 wireguard_server_tuncidr: 172.16.1.1/32
 wireguard_peers: []
