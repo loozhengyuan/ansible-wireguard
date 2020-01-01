@@ -47,7 +47,7 @@
     content: "{{ wireguard_server_custom_privatekey }}"
     dest: privatekey
     mode: '0644'
-  when: wireguard_server_custom_privatekey
+  when: wireguard_server_custom_privatekey|bool
 
 - name: Ensure privatekey exists
   stat:
@@ -70,7 +70,7 @@
     content: "{{ wireguard_server_custom_publickey }}"
     dest: publickey
     mode: '0644'
-  when: wireguard_server_custom_publickey
+  when: wireguard_server_custom_publickey|bool
 
 - name: Ensure publickey exists
   stat:
