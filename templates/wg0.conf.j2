@@ -1,6 +1,6 @@
 [Interface]
 # Name = {{ ansible_facts['fqdn'] }}
-PrivateKey = {{ wireguard_server_privatekey.content | b64decode }}
+PrivateKey = {{ wireguard_server_privatekey.content | b64decode | trim }}
 Address = {{ wireguard_server_tuncidr }}
 ListenPort = {{ wireguard_server_port }}
 PostUp = iptables -A FORWARD -i wg0 -j ACCEPT; iptables -A FORWARD -o wg0 -j ACCEPT; iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE; ip6tables -A FORWARD -i wg0 -j ACCEPT; ip6tables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
