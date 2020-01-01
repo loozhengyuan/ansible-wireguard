@@ -46,7 +46,7 @@
   copy:
     content: "{{ wireguard_server_custom_privatekey }}"
     dest: privatekey
-    mode: '0644'
+    mode: '0600'
   when: wireguard_server_custom_privatekey|length > 0
 
 - name: Ensure privatekey exists
