@@ -48,6 +48,7 @@
       {{ wireguard_server_custom_privatekey }}
     dest: privatekey
     mode: '0600'
+    backup: yes
   when: wireguard_server_custom_privatekey|length > 0
 
 - name: Ensure privatekey exists
@@ -72,6 +73,7 @@
       {{ wireguard_server_custom_publickey }}
     dest: publickey
     mode: '0644'
+    backup: yes
   when: wireguard_server_custom_publickey|length > 0
 
 - name: Ensure publickey exists
