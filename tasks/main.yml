@@ -72,7 +72,7 @@
     content: |
       {{ wireguard_server_custom_publickey }}
     dest: publickey
-    mode: '0644'
+    mode: '0600'
     backup: yes
   when: wireguard_server_custom_publickey|length > 0
 
