@@ -45,7 +45,7 @@
 - name: Ensure custom privatekey is loaded if specified
   copy:
     content: |
-      "{{ wireguard_server_custom_privatekey }}"
+      {{ wireguard_server_custom_privatekey }}
     dest: privatekey
     mode: '0600'
   when: wireguard_server_custom_privatekey|length > 0
@@ -69,7 +69,7 @@
 - name: Ensure custom publickey is loaded if specified
   copy:
     content: |
-      "{{ wireguard_server_custom_publickey }}"
+      {{ wireguard_server_custom_publickey }}
     dest: publickey
     mode: '0644'
   when: wireguard_server_custom_publickey|length > 0
